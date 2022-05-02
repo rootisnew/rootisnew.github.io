@@ -1,0 +1,295 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>zabbix总结 | Mr.yang 个人博客</title><meta name="keywords" content="Linux"><meta name="author" content="Mr.yang"><meta name="copyright" content="Mr.yang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="zabbix官方的一句话描述zabbix： 监视任何事情适用于任何IT基础架构，服务，应用程序和资源的解决方案  Monitor anythingSolutions for any kind of IT infrastructure, services, applications, resources  监控基础概论    zabbix并非监控，而是实现监控的工具  Zabbix-server是一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zabbix总结">
+<meta property="og:url" content="http://rootisnew.github.io/2021/08/27/zabbix%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Mr.yang 个人博客">
+<meta property="og:description" content="zabbix官方的一句话描述zabbix： 监视任何事情适用于任何IT基础架构，服务，应用程序和资源的解决方案  Monitor anythingSolutions for any kind of IT infrastructure, services, applications, resources  监控基础概论    zabbix并非监控，而是实现监控的工具  Zabbix-server是一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://oss.putianhui.cn/admin/CODE-COLOR-COVER.png">
+<meta property="article:published_time" content="2021-08-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-05-01T08:41:32.024Z">
+<meta property="article:author" content="Mr.yang">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://oss.putianhui.cn/admin/CODE-COLOR-COVER.png"><link rel="shortcut icon" href="https://oss.putianhui.cn/admin/CODE-COLOR-COVER.png"><link rel="canonical" href="http://rootisnew.github.io/2021/08/27/zabbix%E6%80%BB%E7%BB%93/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":null,"messageNext":"自上次文章更新后已经过去很久了，文章内容可能已过时。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":200,"languages":{"author":"作者: Mr.yang","link":"链接: ","source":"来源: Mr.yang 个人博客","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'zabbix总结',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-05-01 16:41:32'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.1.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://oss.putianhui.cn/admin/CODE-COLOR-COVER.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div><div class="menus_item"><a class="site-page" href="/guestbook/"><i class="fa-fw comment"></i><span> 留言板</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://oss.putianhui.cn/admin/CODE-COLOR-COVER.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Mr.yang 个人博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div><div class="menus_item"><a class="site-page" href="/guestbook/"><i class="fa-fw comment"></i><span> 留言板</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">zabbix总结</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-08-26T16:00:00.000Z" title="发表于 2021-08-27 00:00:00">2021-08-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-05-01T08:41:32.024Z" title="更新于 2022-05-01 16:41:32">2022-05-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Zabbix/">Zabbix</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="zabbix总结"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="zabbix官方的一句话描述zabbix："><a href="#zabbix官方的一句话描述zabbix：" class="headerlink" title="zabbix官方的一句话描述zabbix："></a>zabbix官方的一句话描述zabbix：</h2><ul>
+<li><p>监视任何事情适用于任何IT基础架构，服务，应用程序和资源的解决方案</p>
+</li>
+<li><p>Monitor anythingSolutions for any kind of IT infrastructure, services, applications, resources</p>
+</li>
+<li><p>监控基础概论</p>
+</li>
+</ul>
+<ol>
+<li><p>zabbix并非监控，而是实现监控的工具</p>
+</li>
+<li><p>Zabbix-server是一个c&#x2F;s和b&#x2F;s结构</p>
+</li>
+<li><p>安装zabbbix的服务器安装时和php7.1有冲突：若此机器上已经安装php7.1就安装不上zabbix</p>
+</li>
+</ol>
+<h3 id="为什么要使用监控？"><a href="#为什么要使用监控？" class="headerlink" title="为什么要使用监控？"></a>为什么要使用监控？</h3><p>1.对系统不间断实时监控</p>
+<p>2.实时反馈系统当前状态</p>
+<p>3.保证服务可靠性安全性</p>
+<p>4.保证业务持续稳定运行</p>
+<h2 id="我们去一家新的公司应该如何入手？"><a href="#我们去一家新的公司应该如何入手？" class="headerlink" title="我们去一家新的公司应该如何入手？"></a>我们去一家新的公司应该如何入手？</h2><p>1.硬件监控–路由器、交换机、防火墙</p>
+<p>2.系统监控–cpu、内存、磁盘、网络、进程、tcp</p>
+<p>3.服务监控–nginx、php、tomcat、redis、memcache、mysql</p>
+<p>4.web监控–响应时间、加载时间、渲染时间</p>
+<p>5.日志监控–ELK、（收集、存储、分析、展示）日志</p>
+<p>6.安全监控–firewalld、WAF(nginx+lua)、安全宝、牛盾云、安全狗</p>
+<h3 id="安装zabbix"><a href="#安装zabbix" class="headerlink" title="安装zabbix"></a>安装zabbix</h3><p>（单机）–&gt; LAMP</p>
+<p>（架构）–&gt; LAP + MYSQL</p>
+<p>服务端端口：10051</p>
+<p>客户端端口：10050</p>
+<p>Java-gateway：10052</p>
+<h3 id="基础模板应该如何制作？"><a href="#基础模板应该如何制作？" class="headerlink" title="基础模板应该如何制作？"></a>基础模板应该如何制作？</h3><pre><code>1.编写脚本或者命令，能够获取指定监控对象的数据 并发连接
+2.在zabbix agent配置文件添加自定义监控项
+    指定key的名称和脚本路径
+    key在同一个zabbix agent不能重名
+    重启zabbix agent 
+    UserParameter=redis_monitor[*],/bin/bash /etc/zabbix/zabbix_agentd.d/redis_monitor.sh $1 $2 $3
+3.在zabbix server使用zabbix_get命令测试监控项能不能获取到数据
+    避免出现权限问题
+    数据格式问题
+    路径问题
+    # zabbix_get -s 172.31.0.106 -p 10050 -k &quot;redis_monitor[&quot;redis_status&quot;,&quot;6379&quot;,&quot;connected_clients&quot;]&quot;    
+
+4.在zabbix web界面创建模板或者创建监控项、如果已经有模板就直接把模板关联到指定主机
+5 配置触发器（邮件&#39;微信），用来报警
+6 宕机测试
+</code></pre>
+<h3 id="zabbi-agent的主动模式被动模式"><a href="#zabbi-agent的主动模式被动模式" class="headerlink" title="zabbi-agent的主动模式被动模式"></a>zabbi-agent的主动模式被动模式</h3><ul>
+<li><p>无论是主动模式还是被动模式都是站在zabbix-agent的角度来讲的</p>
+</li>
+<li><p>主动模式</p>
+<blockquote>
+<p>主动模式是由zabbix agent主动向zabbix server的10051端口发起tcp连接请求，因此主动模式下必须在zabbix</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>agent配置文件中指定zabbix server的IP或者主机名(必须可以被解析为IP地址)，在连接到zabbix server之前<br>zabbix agent是不知道自己要采集那些数据以及间隔多久采集一次数据的，然后在连接到zabbix server以后获取到<br>自己的监控项和数据采集间隔周期时间，然后再根据监控项采集数据并返回给zabbix server，在主动模式下不再需<br>要zabbix serve向zabbix agent发起连接请求，因此主动模式在一定程度上可减轻zabbix server打开的本地随机端<br>口和进程数，在一定程度就减轻看zabbix server的压力。</p>
+</blockquote>
+<ul>
+<li><p>被动模式</p>
+<blockquote>
+<p>被动模式的特点就是，在默认的被动模式下zabbix-agent什么都不做，zabbix-server什么时候发生什么事情，zabbix-agent就去采集什么数据，优点就是配置简单，安装就是被动模式，缺点就是数百上千台机器会导致zabbix-server轮训想每个zaibbix-agent发送数据采集指令，如果server负载过高可能导致不能及时获取到最新数据</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>优点是配置简单<br>公司规模非常小的时候 ，几十个服务器  在被动模式下的模板直接使用就可以<br>    公司规模比较大的时候几百个服务器，这个时候决定使用主动还是被动，结合zabbix-proxy</p>
+</blockquote>
+<h3 id="zabbix-proxy-介绍"><a href="#zabbix-proxy-介绍" class="headerlink" title="zabbix-proxy 介绍"></a>zabbix-proxy 介绍</h3><blockquote>
+<p>zabbix 作为一个分布式监控系统(分布式监控解决方案)，支持通过代理(proxy)收集zabbix agent的监控数据然后由    zabbix proxy再把数据发送给zabbix server，也就是zabbix proxy 可以代替 zabbix server 收集监控数据，然后把数据汇报给 zabbix server，所以zabbix proxy可以在一定程度上分担了zabbix server 的数据收集压力，从而降低了数据的采集时间、也相应的增加了zabbix server的监控能力。</p>
+<p>zabbix 作为一个分布式监控系统(分布式监控解决方案)，支持通过代理(proxy)收集zabbix agent的监控数据然后由 zabbix proxy再把数据发送给zabbix server，也就是zabbix proxy 可以代替 zabbix server 收集监控数据，然后把数据汇报给 zabbix server，所以zabbix proxy可以在一定程度上分担了zabbix server 的数据收集压力，从而降低了数据的采集时间、也相应的增加了zabbix server的监控能力。</p>
+</blockquote>
+<p><strong>proxy主动模式和被动模式的区别</strong></p>
+<blockquote>
+<p>另外zabbix proxy也区分主动模式和被动模式，通信方式与zabbix server主动模式和被动模式一样，区别是zabbixproxy由于没有zabbix agent的配置，所以zabbix proxy在主动模式下要向zabbix server周期性的向zabbix server申请获取zabbix agent的监控项信息，但是zabbix proxy在被动模式下也是等待zabbix server的连接并接受zabbixserver发送的监控项指令，然后再有zabbix proxy向zabbix agent发起请求获取数据。- 另外zabbix proxy也区分主动模式和被动模式，通信方式与zabbix server主动模式和被动模式一样，区别是zabbixproxy由于没有zabbix agent的配置，所以zabbix proxy在主动模式下要向zabbix server周期性的向zabbix server申请获取zabbix agent的监控项信息，但是zabbix proxy在被动模式下也是等待zabbix server的连接并接受zabbixserver发送的监控项指令，然后再有zabbix proxy向zabbix agent发起请求获取数据。</p>
+</blockquote>
+<h1 id="被动模式的proxy"><a href="#被动模式的proxy" class="headerlink" title="被动模式的proxy"></a>被动模式的proxy</h1><p>server并不主动连接agent而是由proxy去替代server去连接，这样proxy相当于代理，每个proxy都有数据库，把agent返回的数据存在自己的数据库里。因为如果和server连接错误，数据会暂时放在proyx的数据里面，防止数据丢失。  等可以连接server之后就会主动放在server的数据库里面   这个是被动模式</p>
+<h1 id="主动模式的proxy"><a href="#主动模式的proxy" class="headerlink" title="主动模式的proxy"></a>主动模式的proxy</h1><p>主动模式下 agent的配置文件 ServerActice&#x3D; 指向我的代理（proxy）  ，而且还要告诉proxy我的server是哪个  ，proxy才会把agent的数据传给server ，相互转发，<br>好处是缓解我们server的负载压力</p>
+<h2 id="实战案例-监控-redis"><a href="#实战案例-监控-redis" class="headerlink" title="实战案例 监控 redis"></a>实战案例 监控 redis</h2><h1 id="zabbix最主要的就是自定义监控项获取数据，以及做模板等等"><a href="#zabbix最主要的就是自定义监控项获取数据，以及做模板等等" class="headerlink" title="zabbix最主要的就是自定义监控项获取数据，以及做模板等等"></a>zabbix最主要的就是自定义监控项获取数据，以及做模板等等</h1><p>正常redis的连接数1500 左右应该就没问题，如果在多可能就会造成服务器宕机的情况<br>学习一个模板中创建多个监控项、多个触发器和多个图形，在模板中创建监控项，创建图形<br>我们希望我们的redis内存，状态，连接数等等，一般都是通过命令行连接过去，然后输入info 查看我们的监控项。  </p>
+<pre><code>#在zabbix-agent安装redis让我们的server去监控
+apt install redis
+grep &quot;^bind&quot; /etc/redis/redis.conf
+sed -ri &#39;s/bind 127.0.0.1/\bind 0.0.0.0/&#39; /etc/redis/redis.conf
+systemctl restart redis &amp;&amp; systemctl enable redis
+# 编辑监控redis的脚本,创建存放脚本的路径
+vim /etc/zabbix/zabbbix_agent.d/redis_monitor.sh
+#!/bin/bash
+#Author：Mr.yang
+redis_status()&#123;
+        R_PORT=$1
+        R_COMMAND=$2
+        (echo -en &quot;INFO \r\n&quot;;sleep 1;) &#39; ncat 127.0.0.1 &quot;$R_PORT&quot; &gt; /tmp/redis_&quot;$R_PORT&quot;.tmp
+        REDIS_STAT_VALUE=$(grep &quot;&quot;$R_COMMAND&quot;:&quot; /tmp/redis_&quot;$R_PORT&quot;.tmp &#39; cut -d &#39;:&#39; -f2)
+        echo $REDIS_STAT_VALUE
+&#125;
+help()&#123;
+        echo &quot;$&#123;0&#125; + redis_status + PORT + COMMAND&quot;
+&#125;
+main()&#123;
+        case $1 in redis_status)
+                redis_status $2 $3
+                        ;;
+                *)
+                        help
+                            ;;
+                esac
+&#125;
+main $1 $2 $3
+本机测试是否可以取到监控项
+cd /etc/zabbix/zabbix_agent.d/
+bash redis_monitor.sh redis_status 6379 used_memory
+#测试成功我们添加可执行权限
+chomod a+x redis_mointor.sh
+在配置文件添加脚本路径让我们的server可以执行远程命令
+vim /etc/zabbix/zabbix_agentd.conf
+UserParameter=redis_monitor[*],/bin/bash /etc/zabbix/zabbix_agentd.d/redis_monitor.sh $1 $2 $3
+#在zabbix-server测试
+zabbix_get -s 10.0.0.12 -p 10050 -k &quot;redis_monitor[&quot;redis_status&quot;,&quot;6379&quot;,&quot;used_memory&quot;]&quot;
+然后我们就可以在web界面创建模板--创建应用集--创建监控项（key的值就是我们测试的key）--然后在创建图形查看监控项的值，后续如果还有redis的监控，我们就直接添加redis的模板就可以了
+</code></pre>
+<h3 id="实战案例-监控memcached"><a href="#实战案例-监控memcached" class="headerlink" title="实战案例 监控memcached"></a>实战案例 监控memcached</h3><p>根据上面的案例我直接写了memcached的脚本，和监控redis一样的操作</p>
+<pre><code>root@ubuntu1804:/etc/zabbix/zabbix_agentd.d# vim /etc/zabbix/zabbix_agentd.d/memcached_monitor.sh 
+#!/bin/bash
+#Author:Mr.yang
+memcached_status()&#123;
+        M_PORT=$1
+        M_COMMAND=$2
+        echo -e  &quot;stats\nquit&quot; &#39; ncat 127.0.0.1 &quot;$M_PORT&quot; &#39; grep &quot;STAT $M_COMMAND&quot; &#39;awk &#39;&#123;print $3&#125;&#39; #ubuntu使用ncat, 安装nmap
+&#125;
+main()&#123;
+        case $1 in
+          memcached_status)
+                memcached_status $2 $3
+                  ;;
+    esac
+&#125;
+main $1 $2 $3
+</code></pre>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Mr.yang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://rootisnew.github.io/2021/08/27/zabbix%E6%80%BB%E7%BB%93/">http://rootisnew.github.io/2021/08/27/zabbix%E6%80%BB%E7%BB%93/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://rootisnew.github.io" target="_blank">Mr.yang 个人博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Linux/">Linux</a></div><div class="post_share"><div class="social-share" data-image="https://oss.putianhui.cn/admin/CODE-COLOR-COVER.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/08/27/SHELL%E7%BB%83%E4%B9%A0%E8%84%9A%E6%9C%AC100%E4%BE%8B/"><img class="prev-cover" src="https://oss.putianhui.cn/admin/CODE-COLOR-COVER.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">SHELL练习脚本100例</div></div></a></div><div class="next-post pull-right"><a href="/2021/08/27/%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85tomcat%E5%92%8CJDK/"><img class="next-cover" src="https://oss.putianhui.cn/admin/CODE-COLOR-COVER.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">一键安装tomcat和JDK</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/11/07/Centos%E5%92%8CUbuntu%E6%9C%80%E5%B0%8F%E5%8C%96%E5%AE%89%E8%A3%85%E5%91%BD%E4%BB%A4/" title="Centos和Ubuntu最小化安装命令"><img class="cover" src="https://oss.putianhui.cn/admin/CODE-COLOR-COVER.png" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2022-05-01</div><div class="title">Centos和Ubuntu最小化安装命令</div></div></a></div><div><a href="/2021/12/28/Linux%E4%BD%BF%E7%94%A8Trojan%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE/" title="Linux使用Trojan代理配置"><img class="cover" src="https://oss.putianhui.cn/admin/CODE-COLOR-COVER.png" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2022-05-01</div><div class="title">Linux使用Trojan代理配置</div></div></a></div><div><a href="/2021/08/27/PXE_centos%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85/" title="PXE_centos一键安装"><img class="cover" src="https://oss.putianhui.cn/admin/CODE-COLOR-COVER.png" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2022-05-01</div><div class="title">PXE_centos一键安装</div></div></a></div><div><a href="/2021/08/27/SHELL%E7%BB%83%E4%B9%A0%E8%84%9A%E6%9C%AC100%E4%BE%8B/" title="SHELL练习脚本100例"><img class="cover" src="https://oss.putianhui.cn/admin/CODE-COLOR-COVER.png" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2022-05-01</div><div class="title">SHELL练习脚本100例</div></div></a></div><div><a href="/2022/05/01/Ubuntu18.04%E3%80%90Lsyncd%E3%80%91%E6%96%87%E4%BB%B6%E5%AE%9E%E6%97%B6%E5%90%8C%E6%AD%A5/" title="Ubuntu18.04【Lsyncd】文件实时同步"><img class="cover" src="https://oss.putianhui.cn/admin/CODE-COLOR-COVER.png" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2022-05-01</div><div class="title">Ubuntu18.04【Lsyncd】文件实时同步</div></div></a></div><div><a href="/2021/12/02/linux%E7%A3%81%E7%9B%98%E5%9C%A8%E7%BA%BF%E6%89%A9%E5%AE%B9/" title="linux磁盘在线扩容"><img class="cover" src="https://oss.putianhui.cn/admin/CODE-COLOR-COVER.png" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2022-05-01</div><div class="title">linux磁盘在线扩容</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://oss.putianhui.cn/admin/CODE-COLOR-COVER.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Mr.yang</div><div class="author-info__description">求知若饥,虚心若愚</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxx" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:admin@xxxx.cn" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#zabbix%E5%AE%98%E6%96%B9%E7%9A%84%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%8F%8F%E8%BF%B0zabbix%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">zabbix官方的一句话描述zabbix：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E7%9B%91%E6%8E%A7%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">为什么要使用监控？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E4%BB%AC%E5%8E%BB%E4%B8%80%E5%AE%B6%E6%96%B0%E7%9A%84%E5%85%AC%E5%8F%B8%E5%BA%94%E8%AF%A5%E5%A6%82%E4%BD%95%E5%85%A5%E6%89%8B%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">我们去一家新的公司应该如何入手？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85zabbix"><span class="toc-number">2.1.</span> <span class="toc-text">安装zabbix</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E6%A8%A1%E6%9D%BF%E5%BA%94%E8%AF%A5%E5%A6%82%E4%BD%95%E5%88%B6%E4%BD%9C%EF%BC%9F"><span class="toc-number">2.2.</span> <span class="toc-text">基础模板应该如何制作？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zabbi-agent%E7%9A%84%E4%B8%BB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.3.</span> <span class="toc-text">zabbi-agent的主动模式被动模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zabbix-proxy-%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.4.</span> <span class="toc-text">zabbix-proxy 介绍</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E7%9A%84proxy"><span class="toc-number"></span> <span class="toc-text">被动模式的proxy</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E7%9A%84proxy"><span class="toc-number"></span> <span class="toc-text">主动模式的proxy</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B-%E7%9B%91%E6%8E%A7-redis"><span class="toc-number">1.</span> <span class="toc-text">实战案例 监控 redis</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#zabbix%E6%9C%80%E4%B8%BB%E8%A6%81%E7%9A%84%E5%B0%B1%E6%98%AF%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9B%91%E6%8E%A7%E9%A1%B9%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%81%9A%E6%A8%A1%E6%9D%BF%E7%AD%89%E7%AD%89"><span class="toc-number"></span> <span class="toc-text">zabbix最主要的就是自定义监控项获取数据，以及做模板等等</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B-%E7%9B%91%E6%8E%A7memcached"><span class="toc-number">0.1.</span> <span class="toc-text">实战案例 监控memcached</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/05/01/Ubuntu18.04%E3%80%90Lsyncd%E3%80%91%E6%96%87%E4%BB%B6%E5%AE%9E%E6%97%B6%E5%90%8C%E6%AD%A5/" title="Ubuntu18.04【Lsyncd】文件实时同步"><img src="https://oss.putianhui.cn/admin/CODE-COLOR-COVER.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Ubuntu18.04【Lsyncd】文件实时同步"/></a><div class="content"><a class="title" href="/2022/05/01/Ubuntu18.04%E3%80%90Lsyncd%E3%80%91%E6%96%87%E4%BB%B6%E5%AE%9E%E6%97%B6%E5%90%8C%E6%AD%A5/" title="Ubuntu18.04【Lsyncd】文件实时同步">Ubuntu18.04【Lsyncd】文件实时同步</a><time datetime="2022-05-01T05:57:07.537Z" title="发表于 2022-05-01 13:57:07">2022-05-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/04/%E4%B8%89%E3%80%81k8s%E5%AE%89%E8%A3%85DNS%E4%BB%A5%E5%8F%8Adashboad/" title="三、k8s安装DNS以及dashboad"><img src="https://oss.putianhui.cn/admin/CODE-COLOR-COVER.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="三、k8s安装DNS以及dashboad"/></a><div class="content"><a class="title" href="/2022/01/04/%E4%B8%89%E3%80%81k8s%E5%AE%89%E8%A3%85DNS%E4%BB%A5%E5%8F%8Adashboad/" title="三、k8s安装DNS以及dashboad">三、k8s安装DNS以及dashboad</a><time datetime="2022-01-03T16:00:00.000Z" title="发表于 2022-01-04 00:00:00">2022-01-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/03/%E4%BA%8C%E3%80%81k8s%E9%9B%86%E7%BE%A4%E7%BB%B4%E6%8A%A4%EF%BC%88%E5%8D%87%E7%BA%A7%EF%BC%8C%E6%B7%BB%E5%8A%A0%EF%BC%8C%E5%88%A0%E9%99%A4%EF%BC%89/" title="二、k8s集群维护（升级，添加，删除）"><img src="https://oss.putianhui.cn/admin/CODE-COLOR-COVER.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="二、k8s集群维护（升级，添加，删除）"/></a><div class="content"><a class="title" href="/2022/01/03/%E4%BA%8C%E3%80%81k8s%E9%9B%86%E7%BE%A4%E7%BB%B4%E6%8A%A4%EF%BC%88%E5%8D%87%E7%BA%A7%EF%BC%8C%E6%B7%BB%E5%8A%A0%EF%BC%8C%E5%88%A0%E9%99%A4%EF%BC%89/" title="二、k8s集群维护（升级，添加，删除）">二、k8s集群维护（升级，添加，删除）</a><time datetime="2022-01-02T16:00:00.000Z" title="发表于 2022-01-03 00:00:00">2022-01-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/02/%E4%B8%80%E3%80%81k8s%E9%9B%86%E7%BE%A4%E4%BD%BF%E7%94%A8kubeasz%E5%AE%89%E8%A3%85/" title="一、k8s集群使用kubeasz安装"><img src="https://oss.putianhui.cn/admin/CODE-COLOR-COVER.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="一、k8s集群使用kubeasz安装"/></a><div class="content"><a class="title" href="/2022/01/02/%E4%B8%80%E3%80%81k8s%E9%9B%86%E7%BE%A4%E4%BD%BF%E7%94%A8kubeasz%E5%AE%89%E8%A3%85/" title="一、k8s集群使用kubeasz安装">一、k8s集群使用kubeasz安装</a><time datetime="2022-01-01T16:00:00.000Z" title="发表于 2022-01-02 00:00:00">2022-01-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/28/Linux%E4%BD%BF%E7%94%A8Trojan%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE/" title="Linux使用Trojan代理配置"><img src="https://oss.putianhui.cn/admin/CODE-COLOR-COVER.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux使用Trojan代理配置"/></a><div class="content"><a class="title" href="/2021/12/28/Linux%E4%BD%BF%E7%94%A8Trojan%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE/" title="Linux使用Trojan代理配置">Linux使用Trojan代理配置</a><time datetime="2021-12-27T16:00:00.000Z" title="发表于 2021-12-28 00:00:00">2021-12-28</time></div></div></div></div></div></div></main><footer id="footer" style="background: #FFF0F5"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2022 By Mr.yang</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=41010502004766" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="https://oss.putianhui.cn/admin/gaba.png" style="float:left;"/>豫公网安备 41010502004766号</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://beian.miit.gov.cn/" target="_blank" data-pjax-state="">陕ICP备18008019号-2</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
